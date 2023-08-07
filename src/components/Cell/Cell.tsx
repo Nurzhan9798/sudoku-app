@@ -29,11 +29,11 @@ export const Cell = (props: CellProps) => {
   const isSelected = selectedRow === row && selectedColumn === column;
 
   const selectedCell = useSelector(boardSelectedCell);
-  const selectedCellValue = selectedCell.readonly
+  const selectedCellValue = selectedCell.isPreFilled
     ? selectedCell.value
     : selectedCell.userValue;
 
-  const isRelativeValue = cell.readonly
+  const isRelativeValue = cell.isPreFilled
     ? selectedCellValue === cell.value
     : cell.userValue
     ? selectedCellValue === cell.userValue
@@ -48,21 +48,21 @@ export const Cell = (props: CellProps) => {
   }, [cellGroup, column, row, selectedCellGroup, selectedColumn, selectedRow]);
 
   const isError = useMemo(() => {
-    if (!cell.readonly && cell.userValue) {
+    if (!cell.isPreFilled && cell.userValue) {
       return cell.userValue !== cell.value;
     }
     return false;
-  }, [cell.readonly, cell.userValue, cell.value]);
+  }, [cell.isPreFilled, cell.userValue, cell.value]);
 
   useEffect(() => {
-    if (cell.readonly) {
+    if (cell.isPreFilled) {
       setValue(cell.value);
     } else if (cell.userValue && cell.userValue > 0) {
       setValue(cell.userValue);
     } else {
       setValue("");
     }
-  }, [cell.readonly, cell.userValue, cell.value]);
+  }, [cell.isPreFilled, cell.userValue, cell.value]);
 
   const onClick = () => {
     dispatch(boardActions.setSelectedRow(row));
@@ -76,7 +76,7 @@ export const Cell = (props: CellProps) => {
         [cls.relativeCell]: isRelativeCell,
         [cls.relativeValue]: isRelativeValue,
         [cls.error]: isError,
-        [cls.userValue]: !cell.readonly,
+        [cls.userValue]: !cell.isPreFilled,
         [cls.columnDivider]: column % 3 === 0,
         [cls.rowDivider]: row % 3 === 0,
         [cls.lastColumn]: column === 8,

@@ -1,19 +1,9 @@
 import cls from "./Board.module.css";
 import { Cell } from "../Cell/Cell";
-import {
-  boardActions,
-  boardCells,
-  boardSelectedColumn,
-  boardSelectedRow,
-} from "./boardSlice";
+import { boardActions, boardCells } from "./boardSlice";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import {
-  EventHandler,
-  KeyboardEvent,
-  KeyboardEventHandler,
-  useMemo,
-} from "react";
+import { KeyboardEvent, useMemo } from "react";
 
 interface BoardProps {
   className?: string;
@@ -22,10 +12,6 @@ interface BoardProps {
 export const Board = (props: BoardProps) => {
   const { className } = props;
   const board = useSelector(boardCells);
-  const selectedRow = useSelector(boardSelectedRow);
-  const selectedColumn = useSelector(boardSelectedColumn);
-  const selectedCellGroup =
-    Math.floor(selectedRow / 3) * 3 + Math.floor(selectedColumn / 3);
 
   const dispatch = useAppDispatch();
   const options = useMemo<Set<string>>(() => {

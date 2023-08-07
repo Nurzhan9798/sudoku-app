@@ -1,5 +1,4 @@
 import { CellInterface } from "../../types/CellInterface";
-import { boardData } from "../../const/data";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 
@@ -10,7 +9,7 @@ export interface BoardState {
 }
 
 const initialState: BoardState = {
-  cells: boardData,
+  cells: [],
   selectedRow: 0,
   selectedColumn: 0,
 };
@@ -19,6 +18,9 @@ export const boardSlice = createSlice({
   name: "board",
   initialState,
   reducers: {
+    initBoard: (state, action: PayloadAction<CellInterface[][]>) => {
+      state.cells = action.payload;
+    },
     setSelectedRow: (state, action: PayloadAction<number>) => {
       state.selectedRow = action.payload;
     },
@@ -43,7 +45,7 @@ export const boardSlice = createSlice({
       const row = state.selectedRow;
       const column = state.selectedColumn;
 
-      if (!state.cells[row][column].readonly) {
+      if (!state.cells[row][column].isPreFilled) {
         state.cells[row][column].userValue = action.payload;
       }
     },
@@ -51,7 +53,7 @@ export const boardSlice = createSlice({
       const row = state.selectedRow;
       const column = state.selectedColumn;
 
-      if (!state.cells[row][column].readonly) {
+      if (!state.cells[row][column].isPreFilled) {
         state.cells[row][column].userValue = undefined;
       }
     },

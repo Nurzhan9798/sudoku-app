@@ -1,0 +1,14 @@
+.ToggleNoteMode {
+
+}
+
+.button {
+    padding: 10px 5px;
+    border: 1px solid black;
+    background: none;
+    cursor: pointer;
+}
+
+.active {
+    background-color: lawngreen;
+}

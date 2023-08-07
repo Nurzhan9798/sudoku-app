@@ -1,6 +1,6 @@
 import cls from "./Board.module.css";
 import { Cell } from "../Cell/Cell";
-import { boardActions, boardCells } from "./boardSlice";
+import { boardActions, boardCells, boardIsNoteMode } from "./boardSlice";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { KeyboardEvent, useMemo } from "react";
@@ -12,6 +12,7 @@ interface BoardProps {
 export const Board = (props: BoardProps) => {
   const { className } = props;
   const board = useSelector(boardCells);
+  const isNoteMode = useSelector(boardIsNoteMode);
 
   const dispatch = useAppDispatch();
   const options = useMemo<Set<string>>(() => {
@@ -23,8 +24,13 @@ export const Board = (props: BoardProps) => {
   }, []);
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    console.log(e);
     if (options.has(e.key)) {
-      dispatch(boardActions.setUserValue(Number(e.key)));
+      if (isNoteMode) {
+        dispatch(boardActions.setNoteValue(Number(e.key)));
+      } else {
+        dispatch(boardActions.setUserValue(Number(e.key)));
+      }
     } else {
       switch (e.key) {
         case "ArrowDown":
@@ -40,7 +46,14 @@ export const Board = (props: BoardProps) => {
           dispatch(boardActions.goToRight());
           break;
         case "Backspace":
-          dispatch(boardActions.clearUserValue());
+          if (isNoteMode) {
+            dispatch(boardActions.clearNotes());
+          } else {
+            dispatch(boardActions.clearUserValue());
+          }
+          break;
+        case "n":
+          dispatch(boardActions.toggleNoteMode());
           break;
       }
     }

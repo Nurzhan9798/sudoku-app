@@ -10,6 +10,7 @@ import {
 } from "../Board/boardSlice";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
+import { CellNotes } from "../CellNotes/CellNotes";
 
 interface CellProps {
   cell: CellInterface;
@@ -85,6 +86,7 @@ export const Cell = (props: CellProps) => {
       onClick={onClick}
     >
       {value}
+      {value === "" && <CellNotes notes={cell.notes} />}
     </div>
   );
 };

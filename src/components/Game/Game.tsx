@@ -4,7 +4,8 @@ import { RemainderIndicator } from "../RemainderIndicator/RemainderIndicator";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useEffect } from "react";
 import { boardActions } from "../Board/boardSlice";
-import { boardData } from "../../const/data";
+import { generateSudokuBoard } from "../../helper/sudoku";
+import { ToggleNoteMode } from "../ToggleNoteMode/ToggleNoteMode";
 
 interface GameProps {
   className?: string;
@@ -15,7 +16,9 @@ export const Game = (props: GameProps) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(boardActions.initBoard(boardData));
+    const board = generateSudokuBoard("expert");
+    console.log(board);
+    dispatch(boardActions.initBoard(board));
   }, [dispatch]);
 
   return (
@@ -24,6 +27,7 @@ export const Game = (props: GameProps) => {
       <div className={cls.main}>
         <Board />
         <RemainderIndicator />
+        <ToggleNoteMode />
       </div>
     </div>
   );

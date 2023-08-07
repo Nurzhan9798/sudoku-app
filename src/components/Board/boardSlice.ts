@@ -6,12 +6,14 @@ export interface BoardState {
   selectedRow: number;
   selectedColumn: number;
   cells: CellInterface[][];
+  isNoteMode: boolean;
 }
 
 const initialState: BoardState = {
   cells: [],
   selectedRow: 0,
   selectedColumn: 0,
+  isNoteMode: false,
 };
 
 export const boardSlice = createSlice({
@@ -49,6 +51,20 @@ export const boardSlice = createSlice({
         state.cells[row][column].userValue = action.payload;
       }
     },
+    setNoteValue: (state, action: PayloadAction<number>) => {
+      const row = state.selectedRow;
+      const column = state.selectedColumn;
+
+      if (!state.cells[row][column].isPreFilled) {
+        if (state.cells[row][column].notes.includes(action.payload)) {
+          state.cells[row][column].notes = state.cells[row][
+            column
+          ].notes.filter((item) => item !== action.payload);
+        } else {
+          state.cells[row][column].notes.push(action.payload);
+        }
+      }
+    },
     clearUserValue: (state) => {
       const row = state.selectedRow;
       const column = state.selectedColumn;
@@ -56,6 +72,17 @@ export const boardSlice = createSlice({
       if (!state.cells[row][column].isPreFilled) {
         state.cells[row][column].userValue = undefined;
       }
+    },
+    clearNotes: (state) => {
+      const row = state.selectedRow;
+      const column = state.selectedColumn;
+
+      if (!state.cells[row][column].isPreFilled) {
+        state.cells[row][column].notes = [];
+      }
+    },
+    toggleNoteMode: (state) => {
+      state.isNoteMode = !state.isNoteMode;
     },
   },
 });
@@ -67,3 +94,4 @@ export const boardSelectedColumn = (state: RootState) =>
 export const boardSelectedCell = (state: RootState) =>
   state.board.cells[state.board.selectedRow][state.board.selectedColumn];
 export const boardCells = (state: RootState) => state.board.cells;
+export const boardIsNoteMode = (state: RootState) => state.board.isNoteMode;

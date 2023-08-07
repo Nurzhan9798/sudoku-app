@@ -1,0 +1,21 @@
+.NumberToolbar {
+}
+
+.cell {
+    border: 1px solid black;
+    height: var(--cell-size);
+    width: var(--cell-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    position: relative;
+}
+
+.hint {
+    position: absolute;
+    font-size: 16px;
+    top: 10px;
+    right: 10px;
+    color: #3d3d3d;
+}

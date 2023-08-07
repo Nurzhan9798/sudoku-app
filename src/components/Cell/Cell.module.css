@@ -1,0 +1,47 @@
+.Cell {
+    height: var(--cell-size);
+    width: var(--cell-size);
+    border: 1px solid var(--cell-border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 32px;
+}
+
+.columnDivider {
+    border-left: 2px solid var(--cell-group-border-color);
+}
+
+.lastColumn {
+    border-right: 2px solid var(--cell-group-border-color);
+}
+
+.rowDivider {
+    border-top: 2px solid var(--cell-group-border-color);
+}
+
+.lastRow {
+    border-bottom: 2px solid var(--cell-group-border-color);
+}
+
+.userValue {
+    color: var(--cell-user-color);
+}
+
+.relativeValue {
+    background-color: var(--relative-value-cell-background-color);
+}
+
+.relativeCell {
+    background-color: var(--relative-cell-background-color);
+}
+
+.error {
+    color: var(--cell-error-color);
+    background-color: var(--cell-error-background-color);
+}
+
+.selected {
+    background-color: var(--selected-cell-background-color);
+}

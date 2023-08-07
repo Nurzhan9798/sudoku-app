@@ -1,0 +1,9 @@
+.Game {
+    text-align: center;
+}
+
+.main {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}

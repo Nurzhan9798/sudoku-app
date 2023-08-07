@@ -1,0 +1,16 @@
+.Board {
+    outline: none;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    height: 50px;
+    width: 50px;
+    border: 1px solid grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

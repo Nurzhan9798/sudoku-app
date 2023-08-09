@@ -1,9 +1,15 @@
+/*@import '@fontsource/roboto/300.css';*/
+/*@import '@fontsource/roboto/400.css';*/
+/*@import '@fontsource/roboto/500.css';*/
+/*@import '@fontsource/roboto/700.css';*/
+
+
 :root {
   --cell-size: 75px;
   --cell-user-color: #0464aa;
   --cell-error-color: #7e0000;
   --cell-error-background-color: #f2cece;
-  --selected-cell-background-color: #1d8fe7;
+  --selected-cell-background-color: #97d9f5;
   --relative-cell-background-color: #e2f4fc;
   --relative-value-cell-background-color: #a8def6;
   --cell-border-color: #c6c6c6;

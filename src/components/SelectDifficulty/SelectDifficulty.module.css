@@ -1,0 +1,8 @@
+.SelectDifficulty {
+    width: 100%;
+    display: flex;
+}
+
+.item {
+    flex: 1;
+}

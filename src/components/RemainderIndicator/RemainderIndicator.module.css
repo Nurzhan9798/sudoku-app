@@ -1,4 +1,7 @@
 .NumberToolbar {
+    display: flex;
+    width: calc(3 * var(--cell-size));
+    flex-wrap: wrap;
 }
 
 .cell {

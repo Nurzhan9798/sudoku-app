@@ -1,8 +1,10 @@
 import cls from "./RemainderIndicator.module.css";
 import { useSelector } from "react-redux";
-import { boardCells } from "../Board/boardSlice";
+import { boardActions, boardCells, boardIsNoteMode } from "../Board/boardSlice";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
+import { Button } from "@mui/material";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 interface NumberToolbarProps {
   className?: string;
@@ -11,6 +13,9 @@ interface NumberToolbarProps {
 export const RemainderIndicator = (props: NumberToolbarProps) => {
   const { className } = props;
   const cells = useSelector(boardCells);
+
+  const isNoteMode = useSelector(boardIsNoteMode);
+  const dispatch = useAppDispatch();
 
   const [usedNumbers, setUsedNumbers] = useState<Map<number, number>>(
     new Map(),
@@ -34,12 +39,23 @@ export const RemainderIndicator = (props: NumberToolbarProps) => {
     setUsedNumbers(newUsedNumbers);
   }, [cells]);
 
+  const setValue = (value: number) => {
+    if (isNoteMode) {
+      dispatch(boardActions.setNoteValue(value));
+    } else {
+      dispatch(boardActions.setUserValue(value));
+    }
+  };
+
   return (
-    <div>
+    <div className={cls.NumberToolbar}>
       {new Array(9).fill(0).map((item, index) => {
         const remainder = 9 - (usedNumbers.get(index + 1) || 0);
         return (
-          <div
+          <Button
+            onClick={() => setValue(index + 1)}
+            variant={remainder === 0 ? "contained" : "outlined"}
+            disabled={remainder === 0}
             key={index}
             className={classNames(cls.cell, {
               [cls.completed]: remainder === 0,
@@ -47,7 +63,7 @@ export const RemainderIndicator = (props: NumberToolbarProps) => {
           >
             {index + 1}
             <span className={cls.hint}>{remainder}</span>
-          </div>
+          </Button>
         );
       })}
     </div>

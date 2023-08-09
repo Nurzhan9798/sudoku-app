@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { boardReducer } from "./components/Board/boardSlice";
+import { gameReducer } from "./components/Game/gameSlice";
 
 export const store = configureStore({
   reducer: {
     board: boardReducer,
+    game: gameReducer,
   },
 });
 

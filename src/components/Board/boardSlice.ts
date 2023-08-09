@@ -84,6 +84,20 @@ export const boardSlice = createSlice({
     toggleNoteMode: (state) => {
       state.isNoteMode = !state.isNoteMode;
     },
+    getHelp: (state) => {
+      let row = Math.floor(Math.random() * 9);
+      let column = Math.floor(Math.random() * 9);
+      while (
+        state.cells[row][column].isPreFilled ||
+        state.cells[row][column].userValue === state.cells[row][column].value
+      ) {
+        row = Math.floor(Math.random() * 9);
+        column = Math.floor(Math.random() * 9);
+      }
+      state.selectedRow = row;
+      state.selectedColumn = column;
+      state.cells[row][column].userValue = state.cells[row][column].value;
+    },
   },
 });
 

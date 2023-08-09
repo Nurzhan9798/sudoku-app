@@ -9,7 +9,7 @@ import { Toolbar } from "../Toolbar/Toolbar";
 import { useSelector } from "react-redux";
 import { Typography } from "@mui/material";
 import { SelectDifficulty } from "../SelectDifficulty/SelectDifficulty";
-import { gameDifficulty } from "./gameSlice";
+import { gameActions, gameDifficulty } from "./gameSlice";
 
 interface GameProps {
   className?: string;
@@ -32,6 +32,7 @@ export const Game = (props: GameProps) => {
       });
     });
     if (correctAnswer === 81) {
+      dispatch(gameActions.setGameCompleted(true));
       setIsModalOpen(true);
     }
   };
@@ -39,6 +40,7 @@ export const Game = (props: GameProps) => {
   useEffect(() => {
     const board = generateSudokuBoard(difficulty);
     dispatch(boardActions.initBoard(board));
+    dispatch(gameActions.initGame());
   }, [difficulty, dispatch]);
 
   useEffect(() => {

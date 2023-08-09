@@ -18,6 +18,7 @@ export const SelectDifficulty = () => {
     <ButtonGroup className={cls.SelectDifficulty}>
       {difficulties.map((item) => (
         <Button
+          key={item}
           className={cls.item}
           onClick={() => onDifficultyChange(item)}
           variant={item === difficulty ? "contained" : "outlined"}

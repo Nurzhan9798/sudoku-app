@@ -6,6 +6,7 @@
     right: 0;
     bottom: 0;
     top: 0;
+    font-weight: 300;
 }
 
 .note1 {
@@ -65,4 +66,9 @@
     position: absolute;
     right: 5px;
     bottom: 5px;
+}
+
+.active {
+    font-weight: 900;
+    color: black;
 }

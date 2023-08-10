@@ -1,14 +1,12 @@
-import { BoardInterface } from "../types/BoardInterface";
-import { getSudoku } from "sudoku-gen";
-import { CellInterface } from "../types/CellInterface";
 import { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
+import { getSudoku } from "sudoku-gen";
+import { BoardCell } from "../types/BoardCell";
 
 export const generateSudokuBoard = (level: Difficulty) => {
   const sudoku = getSudoku(level);
-  console.log(sudoku);
-  const board: BoardInterface = [];
+  const board: BoardCell[][] = [];
   for (let row = 0; row < 9; row++) {
-    const boardRow: CellInterface[] = [];
+    const boardRow: BoardCell[] = [];
     for (let column = 0; column < 9; column++) {
       boardRow.push({
         value: Number(sudoku.solution.charAt(row * 9 + column)),

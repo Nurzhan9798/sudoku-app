@@ -5,12 +5,14 @@ import { RootState } from "../../store";
 export interface GameState {
   difficulty: Difficulty;
   isCompleted: boolean;
+  isPlayerWon: boolean;
   hintNumber: number;
 }
 
 const initialState: GameState = {
   difficulty: "easy",
   isCompleted: false,
+  isPlayerWon: false,
   hintNumber: 3,
 };
 
@@ -31,6 +33,9 @@ export const gameSlice = createSlice({
       state.hintNumber = 3;
       state.isCompleted = false;
     },
+    setPlayerWon: (state, action: PayloadAction<boolean>) => {
+      state.isPlayerWon = action.payload;
+    },
   },
 });
 
@@ -38,4 +43,5 @@ export const { actions: gameActions, reducer: gameReducer } = gameSlice;
 
 export const gameDifficulty = (state: RootState) => state.game.difficulty;
 export const gameIsCompleted = (state: RootState) => state.game.isCompleted;
+export const gameIsPlayerWon = (state: RootState) => state.game.isPlayerWon;
 export const gameHintNumber = (state: RootState) => state.game.hintNumber;

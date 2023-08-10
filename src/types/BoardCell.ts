@@ -1,4 +1,4 @@
-export interface CellInterface {
+export interface BoardCell {
   value: number;
   userValue?: number;
   isPreFilled?: boolean;

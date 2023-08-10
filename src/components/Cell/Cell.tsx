@@ -1,5 +1,5 @@
 import cls from "./Cell.module.css";
-import { CellInterface } from "../../types/CellInterface";
+import { BoardCell } from "../../types/BoardCell";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import {
@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { CellNotes } from "../CellNotes/CellNotes";
 
 interface CellProps {
-  cell: CellInterface;
+  cell: BoardCell;
   row: number;
   column: number;
 }

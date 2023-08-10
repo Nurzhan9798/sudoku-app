@@ -2,28 +2,42 @@ import { Board } from "../Board/Board";
 import cls from "./Game.module.css";
 import { RemainderIndicator } from "../RemainderIndicator/RemainderIndicator";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { KeyboardEvent, useEffect, useMemo, useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import { boardActions, boardCells, boardIsNoteMode } from "../Board/boardSlice";
-import { generateSudokuBoard } from "../../helper/sudoku";
+import { generateSudokuBoard } from "../../helper/sudokuGenerator";
 import { Toolbar } from "../Toolbar/Toolbar";
 import { useSelector } from "react-redux";
 import { Typography } from "@mui/material";
 import { SelectDifficulty } from "../SelectDifficulty/SelectDifficulty";
-import { gameActions, gameDifficulty } from "./gameSlice";
+import { gameActions, gameDifficulty, gameIsPlayerWon } from "./gameSlice";
+import { ResultModal } from "../ResultModal/ResultModal";
 
-interface GameProps {
-  className?: string;
-}
+const valueOptions = new Set<string>([
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+]);
 
-export const Game = (props: GameProps) => {
-  const { className } = props;
+export const Game = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isNoteMode = useSelector(boardIsNoteMode);
   const cells = useSelector(boardCells);
   const difficulty = useSelector(gameDifficulty);
+  const isPlayerWon = useSelector(gameIsPlayerWon);
   const dispatch = useAppDispatch();
 
-  const checkGameCompleted = () => {
+  useEffect(() => {
+    dispatch(boardActions.initBoard(generateSudokuBoard(difficulty)));
+    dispatch(gameActions.initGame());
+  }, [difficulty, dispatch]);
+
+  useEffect(() => {
     let correctAnswer = 0;
     cells.forEach((row) => {
       row.forEach((column) => {
@@ -33,34 +47,17 @@ export const Game = (props: GameProps) => {
     });
     if (correctAnswer === 81) {
       dispatch(gameActions.setGameCompleted(true));
+      dispatch(gameActions.setPlayerWon(true));
       setIsModalOpen(true);
     }
-  };
-
-  useEffect(() => {
-    const board = generateSudokuBoard(difficulty);
-    dispatch(boardActions.initBoard(board));
-    dispatch(gameActions.initGame());
-  }, [difficulty, dispatch]);
-
-  useEffect(() => {
-    console.log("check completed");
-    checkGameCompleted();
-  }, [cells, checkGameCompleted]);
+  }, [cells, dispatch]);
 
   const onModalClose = () => {
     setIsModalOpen(false);
   };
 
-  const options = useMemo<Set<string>>(() => {
-    const set = new Set<string>();
-    for (let i = 1; i <= 9; i++) {
-      set.add(String(i));
-    }
-    return set;
-  }, []);
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (options.has(e.key)) {
+    if (valueOptions.has(e.key)) {
       if (isNoteMode) {
         dispatch(boardActions.setNoteValue(Number(e.key)));
       } else {
@@ -103,14 +100,15 @@ export const Game = (props: GameProps) => {
         <div className={cls.right}>
           {/* TODO TIMER */}
 
-          {/* TODO TOOL BAR*/}
           <Toolbar />
-
-          {/* REMAINDER INDICATOR */}
           <RemainderIndicator />
         </div>
 
-        {/*  TODO congrulation modal dialog*/}
+        <ResultModal
+          open={isModalOpen}
+          onClose={onModalClose}
+          isWinner={isPlayerWon}
+        />
       </div>
     </div>
   );

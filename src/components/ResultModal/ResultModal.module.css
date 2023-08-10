@@ -1,0 +1,15 @@
+.ResultModal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paper {
+    padding: 20px;
+    max-width: 400px;
+    text-align: center;
+}
+
+.paper button {
+    margin-left: auto;
+}

@@ -1,11 +1,11 @@
-import { CellInterface } from "../../types/CellInterface";
+import { BoardCell } from "../../types/BoardCell";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 
 export interface BoardState {
   selectedRow: number;
   selectedColumn: number;
-  cells: CellInterface[][];
+  cells: BoardCell[][];
   isNoteMode: boolean;
 }
 
@@ -20,7 +20,7 @@ export const boardSlice = createSlice({
   name: "board",
   initialState,
   reducers: {
-    initBoard: (state, action: PayloadAction<CellInterface[][]>) => {
+    initBoard: (state, action: PayloadAction<BoardCell[][]>) => {
       state.cells = action.payload;
     },
     setSelectedRow: (state, action: PayloadAction<number>) => {
@@ -49,7 +49,28 @@ export const boardSlice = createSlice({
 
       if (!state.cells[row][column].isPreFilled) {
         state.cells[row][column].userValue = action.payload;
+        for (let i = 0; i < 9; i++) {
+          state.cells[row][i].notes = state.cells[row][i].notes.filter(
+            (v) => v !== action.payload,
+          );
+          state.cells[i][column].notes = state.cells[i][column].notes.filter(
+            (v) => v !== action.payload,
+          );
+        }
       }
+
+      const groupStartRow = Math.floor(row / 3) * 3;
+      const groupStartColumn = Math.floor(column / 3) * 3;
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          state.cells[groupStartRow + i][groupStartColumn + j].notes =
+            state.cells[groupStartRow + i][groupStartColumn + j].notes.filter(
+              (v) => v !== action.payload,
+            );
+        }
+      }
+
+      // TODO GROUP
     },
     setNoteValue: (state, action: PayloadAction<number>) => {
       const row = state.selectedRow;
